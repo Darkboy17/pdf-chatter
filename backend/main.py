@@ -107,7 +107,7 @@ class Book(BaseModel):
     filename: str
 
 # Endpoint to check if API key has been provided
-@app.get("/check-api-key")
+@app.get("/check-api-key/")
 async def check_api_key():
     api_key = os.getenv("GROQ_API_KEY")  # Get the API key from environment variables
     if not api_key:
@@ -251,7 +251,7 @@ async def get_document_id(filename: str):
         raise HTTPException(status_code=404, detail="Document not found")
 
 # Endpoint to get all books
-@app.get("/books")
+@app.get("/books/")
 async def get_books():
     books = fetch_all_books()
     if not books:
@@ -336,3 +336,11 @@ async def get_all_documents():
     
     except Exception as e:
         raise HTTPException(status_code=500, detail="Failed to retrieve documents")
+
+@app.get('/')
+def welcome():
+    return "Welcome to PDF Chatter!"
+
+if __name__ == '__main__':
+    import uvicorn
+    uvicorn.run(app)
